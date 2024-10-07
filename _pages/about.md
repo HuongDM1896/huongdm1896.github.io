@@ -11,7 +11,7 @@ redirect_from:
 **Bonjour C'est Mai.**  
 **안녕하세요 Mai 입니다.**
 
-I come from [**Vietnam**](https://en.wikipedia.org/wiki/Vietnam), a small (but nice) country in Asia. I started my journey from my homeland, then South Korea and now is France. In details, I received my B.S degree in electronics and Telecommunications from the [**Hanoi University of Science and Technology**](https://hust.edu.vn/) in 2020. Then I completed my M.S degree in Computer Science at [**Soongsil University**](https://ssu.ac.kr/) in 2024.Currently, I am pursuing my Ph.D and working as a member of our SEPIA team at [**IRIT**](https://www.irit.fr/en/home/), Toulouse, France. My previous work includes mobile edge computing, deep reinforcement learning and optimization while my current work focuses on distributed systems, energy consumption and federated learning.
+I come from [**Vietnam**](https://en.wikipedia.org/wiki/Vietnam), a small (but nice) country in Asia. I started my journey from my homeland, then South Korea and now is France. In details, I received my B.S degree in Electronics and Telecommunications from the [**Hanoi University of Science and Technology**](https://hust.edu.vn/) in 2020. Then I completed my M.S degree in Computer Science at [**Soongsil University**](https://ssu.ac.kr/) in 2024. Currently, I am pursuing my Ph.D and working as a member of our SEPIA team at [**IRIT**](https://www.irit.fr/en/home/), Toulouse, France. My previous work includes mobile edge computing, deep reinforcement learning and optimization while my current work focuses on distributed systems, energy consumption and federated learning.
 
 Know me in my works
 ======
