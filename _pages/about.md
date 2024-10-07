@@ -29,8 +29,6 @@ Know me beyond my works
 
 For more info
 ======
-**Send me an Email**: [Huong.Do-Mai@irit.fr](mailto:Huong.Do-Mai@irit.fr)  
-**Github**: [HuongDM1896](https://github.com/HuongDM1896)  
-**Google Scholar**: [Mai Huong Do](https://scholar.google.com/citations?user=7Dng0UYAAAAJ&hl=en)  
-**LinkdIn**: [Mai Huong Do](https://www.linkedin.com/in/huongmaido97/)  
-**Facebook**: [Mai Huong Do](https://www.facebook.com/huong.dm84/)
+*You’re welcome to contact me via email ([Huong.Do-Mai@irit.fr](mailto:Huong.Do-Mai@irit.fr)) or any other provided platform.*
+
+

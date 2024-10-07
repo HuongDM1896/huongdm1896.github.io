@@ -7,7 +7,7 @@ excerpt: 'Keyword: <em>MEC, Optimization, Delay, DRL<em>'
 date: 2022-10-19
 venue: '2022 13th International Conference on Information and Communication Technology Convergence (ICTC)'
 slidesurl: 
-paperurl: 'http://academicpages.github.io/files/paper4.pdf'
+paperurl: 'http://huongdm1896.github.io/files/paper4.pdf'
 citation: '<em>Do, Huong Mai, and Myungsik Yoo. "Delay Optimization in Mobile Edge Computing Federation using Task Offloading and Resource Allocation." 2022 13th International Conference on Information and Communication Technology Convergence (ICTC). IEEE, 2022.<em>'
 ---
 

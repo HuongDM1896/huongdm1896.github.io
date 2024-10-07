@@ -7,7 +7,7 @@ excerpt: 'Keyword: <em>MEC, Optimization, Energy, DRL<em>'
 date: 2023-06-15
 venue: '한국통신학회 학술대회논문집'
 slidesurl: 
-paperurl: 'http://academicpages.github.io/files/paper3.pdf'
+paperurl: 'http://huongdm1896.github.io/files/paper3.pdf'
 citation: '<em>Do, Huong Mai, and Myungsik Yoo. "Energy Consumption Optimization in Mobile Edge Computing Federation based Deep Reinforcement Learning." 한국통신학회 학술대회논문집 (2023): 1834-1835.<em>'
 ---
 

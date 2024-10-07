@@ -7,7 +7,7 @@ excerpt: 'Keyword: <em>MEC, Optimization, Energy and Delay tradeoff, DRL<em>'
 date: 2023-08-07
 venue: 'IEEE Access'
 slidesurl: 
-paperurl: 'http://academicpages.github.io/files/paper1.pdf'
+paperurl: 'http://huongdm1896.github.io/files/paper1.pdf'
 citation: '<em>Do, Huong Mai, Tuan Phong Tran, and Myungsik Yoo. "Deep reinforcement learning-based task offloading and resource allocation for industrial IoT in MEC federation system." IEEE Access (2023).<em>'
 ---
 

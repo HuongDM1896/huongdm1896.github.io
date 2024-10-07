@@ -7,7 +7,7 @@ excerpt: 'Keyword: <em>AR video stream, MEC, Optimization, Delay, DRL<em>'
 date: 2023-08-07
 venue: '2023 14th International Conference on Information and Communication Technology Convergence (ICTC)'
 slidesurl: 
-paperurl: 'http://academicpages.github.io/files/paper2.pdf'
+paperurl: 'http://huongdm1896.github.io/files/paper2.pdf'
 citation: '<em>Do, Huong Mai, and Myungsik Yoo. "Delay Optimization for Augmented Reality Service using Mobile Edge Computing Federation System." 2023 14th International Conference on Information and Communication Technology Convergence (ICTC). IEEE, 2023.<em>'
 ---
 
