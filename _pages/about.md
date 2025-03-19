@@ -11,24 +11,23 @@ redirect_from:
 **Bonjour C'est Mai.**  
 **안녕하세요 Mai 입니다.**
 
-I come from [**Vietnam**](https://en.wikipedia.org/wiki/Vietnam), a small (but nice) country in Asia. I started my journey from my homeland, then South Korea and now is France. In details, I received my B.S degree in Electronics and Telecommunications from the [**Hanoi University of Science and Technology**](https://hust.edu.vn/) in 2020. Then I completed my M.S degree in Computer Science at [**Soongsil University**](https://ssu.ac.kr/) in 2024. Currently, I am pursuing my Ph.D and working as a member of our SEPIA team at [**IRIT**](https://www.irit.fr/en/home/), Toulouse, France. My previous work includes mobile edge computing, deep reinforcement learning and optimization while my current work focuses on distributed systems, energy consumption and federated learning.
+I come from Vietnam, a small but beautiful country in Asia. My academic journey has taken me from my homeland to South Korea and now to France.
+
+I earned my B.S. degree in Electronics and Telecommunications from [Hanoi University of Science and Technology](https://hust.edu.vn/) in 2020, where I was supervised by Dr. Lâm Hồng Thạch. In 2024, I completed my M.S. degree in Computer Science at [ANDA Lab](https://anda-researchers.github.io/site/team/), Soongsil University under the guidance of Prof. Myung Sik Yoo. Currently, I am pursuing a Ph.D. and working as a member of the SEPIA team at [IRIT Lab](https://www.irit.fr/en/home/), Univeristy of Toulouse under the supervision of [Prof/HDR. Georges Da Costa](https://www.irit.fr/~Georges.Da-Costa/) and [Assoc.Prof/MCF. Millian Poquet](https://mpoquet.github.io/).
+
+At present, my work focuses on distributed computing systems, energy consumption, and federated learning.
 
 Know me in my works
 ======
-- **Distributed computing system, energy measurement, federated learning**: these are the areas I'm currently focused on, so it would be great if we had similar interests or topics to discuss.
+- **Distributed computing system, energy measurement, federated learning**: These are my current research topics, so I’d like to discuss them if we share similar interests.
 
-- **Deep reinforcement learning, optimization modelling, edge computing**: which is my master's topic, currently I am not deeply researching this one but it is related to my current works, come and discuss if you want to share your interesting things.
+- **Deep reinforcement learning, optimization modelling, edge computing**: These were the focus of my master’s research. While I am not deeply involved in them at the moment, they are still relevant to my current work. Feel free to reach out if you’d like to exchange ideas!
 
-- **Antennas, radio frequencies, wireless communications**: aeras I worked on in the past and although I no longer focus on these, I still enjoy hearing news and updates in these fields.
+- **Antennas, radio frequencies, wireless communications**: I worked in these areas in the past. Although they are no longer my primary focus, I still enjoy keeping up with updates and discussions in these fields.
 
 Know me beyond my works
 ======
-- In my free time, I enjoy hiking, listening to music, traveling, and I have a great passion for delicious food.
+- I enjoy hiking, listening to music, traveling, and I have a great passion for delicious food.
 
 - My personal motto is: "*Follow your heart's desires.*" Then my heart said, "*Eat, Relax, and Wait to grow old.*"
-
-For more info
-======
-*You’re welcome to contact me via email ([Huong.Do-Mai@irit.fr](mailto:Huong.Do-Mai@irit.fr)) or any other provided platform.*
-
 

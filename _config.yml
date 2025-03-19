@@ -8,14 +8,14 @@
 
 # Basic Site Settings
 locale                   : "en-US"
-title                    : "Mai's website"
+title                    : "Mai Huong Do"
 title_separator          : "-"
 name                     : &name "HuongDM"
-description              : &description "Eat, Sleep, Wait to grow old."
+description              : &description "Personal website about research, projects, and more."
 url                      : https://huongdm1896.github.io/ # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 baseurl                  : "" # the subpath of your site, e.g. "/blog"
 repository               : "HuongDM1896/huongdm1896.github.io"
-
+keywords                 : "Mai Huong Do, research, IRIT, SEPIA, UT3"
 # Site Author - The following control what appear as part of the author content on the side bar.
 #               If a field is blank the icon and link will not appear, otherwise it will be shown.
 #               Additional customization can be done by editing /_includes/author-profile.html

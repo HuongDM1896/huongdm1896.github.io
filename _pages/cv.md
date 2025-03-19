@@ -49,7 +49,7 @@ redirect_from:
 ## Experience
 
 - **IRIT Lab, University of Toulouse III**  
-  **PhD Researcher**  
+  **PhD**  
   April 2024 - Present  
   Toulouse, France  
   - Project: *Exploring the tradeoffs between energy and performance of Federated Learning algorithms*  

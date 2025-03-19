@@ -4,7 +4,7 @@ The MPI (Message Passing Interface) functions use to demonstrate how data can be
 
 ---
 
-## Code Breakdown
+## Elements of scripts 
 
 1. **Initialization:**
    - `A = np.zeros(2, dtype='f')`: Initializes a NumPy array `A` of size 2, filled with zeros (floating-point numbers).
@@ -127,7 +127,7 @@ The `Scatter` and `Reduce` operations in MPI. Break down each step and determine
 
 ---
 
-## Code Breakdown
+## Elements of scripts
 
 1. **Initialization:**
    - For `rank == 0`, `A` is initialized as `np.arange(0, 6, dtype='f')`, resulting in an array: `[0., 1., 2., 3., 4., 5.]`.
@@ -404,7 +404,7 @@ if rank == 0:
     print("Total scalar product:", total_result)
 ```
 
-## Explanation of Code
+## Elements
 
 - **Initialization**: Only rank 0 initializes X, Y, and N.
 - **Broadcast**: The size N is broadcasted to all processes so they know the total number of elements.
@@ -485,7 +485,7 @@ if rank == 0:
 
 # Ex5
 
-## What we need?
+## Target
 
 1. **Calculate the mean of all elements in `vec` in parallel.**
 2. **Determine how many elements are greater than the mean.**
@@ -550,7 +550,7 @@ if rank == 0:
     print("Total number of elements greater than the mean:", total_count)
 ```
 
-## Explanation of Code
+## Elements
 
 1. **Initialize `vec` on rank 0**: Only process P0 initializes the vector `vec` with N random float numbers.
 2. **Broadcast N**: N is broadcasted to ensure all processes are aware of the vector's length and can calculate their chunk sizes.
