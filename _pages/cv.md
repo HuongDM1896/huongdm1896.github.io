@@ -6,9 +6,6 @@ author_profile: true
 redirect_from:
   - /resume
 ---
-<img src="http://huongdm1896.github.io/images/profile2.png" alt="Profile Photo" width="200"/>
-
----
 
 ## Education
 

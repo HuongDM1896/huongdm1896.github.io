@@ -1,17 +1,26 @@
 ---
 permalink: /
-title: "Welcome to Mai's Journey"
+title: "About Mai"
 author_profile: true
 redirect_from: 
   - /about/
   - /about.html
 ---
-**Xin chào, tớ là Mai Hương.**  
-**Hello, I'm Mai.**  
-**Bonjour C'est Mai.**  
-**안녕하세요 Mai 입니다.**
+<div style="display: flex; align-items: center; gap: 20px;">
+  <div>
+    <p><strong>Xin chào, tớ là Mai Hương ^^</strong><br>
+    <strong>Hello, I'm Mai.</strong><br>
+    <strong>Nationality: Vietnam</strong><br>
+    </p>
 
-I come from Vietnam, a small but beautiful country in Asia. My academic journey has taken me from my homeland to South Korea and now to France.
+  </div>
+  <img src="http://huongdm1896.github.io/images/profile2.png" alt="Profile Photo" width="200"/>
+</div>
+
+---
+
+
+My academic journey has taken me from my homeland to South Korea and now to France.
 
 I earned my B.S. degree in Electronics and Telecommunications from [Hanoi University of Science and Technology](https://hust.edu.vn/) in 2020, where I was supervised by Dr. Lâm Hồng Thạch. In 2024, I completed my M.S. degree in Computer Science at [ANDA Lab](https://anda-researchers.github.io/site/team/), Soongsil University under the guidance of Prof. Myung Sik Yoo. Currently, I am pursuing a Ph.D. and working as a member of the SEPIA team at [IRIT Lab](https://www.irit.fr/en/home/), Univeristy of Toulouse under the supervision of [Prof/HDR. Georges Da Costa](https://www.irit.fr/~Georges.Da-Costa/) and [Assoc.Prof/MCF. Millian Poquet](https://mpoquet.github.io/).
 
