@@ -75,15 +75,6 @@ redirect_from:
 
 ---
 
-## Publications
-
-1. Do, H. M., Tran, T. P., & Yoo, M. (2023). *Deep Reinforcement Learning-Based Task Offloading and Resource Allocation for Industrial IoT in MEC Federation System.* IEEE Access.
-2. Do, H. M., & Yoo, M. (2023). *Delay Optimization for Augmented Reality Service using Mobile Edge Computing Federation system.* 2023 14th International Conference on Information and Communication Technology Convergence (ICTC).
-3. Do, H. M., & Yoo, M. (2023). *Energy Consumption Optimization in Mobile Edge Computing Federation based Deep Reinforcement Learning.* 한국통신학회 학술대회논문집, 1834-1835.
-4. Do, H. M., & Yoo, M. (2022). *Delay Optimization in Mobile Edge Computing Federation using Task Offloading and Resource Allocation.* 2022 13th International Conference on Information and Communication Technology Convergence (ICTC), pp. 767-770. IEEE.
-
----
-
 ## Certifications and Awards
 
 - **Best Graduation Project Award**, Telecommunications Council, HUST (2020)  
@@ -97,19 +88,19 @@ redirect_from:
 ## References
 
 - **Prof. Georges Da Costa**  
-  SEPIA Team, IRIT, UT3, Toulouse  
-  Email: georges.da-costa@irit.fr  
+  - SEPIA Team, IRIT, UT3, Toulouse  
+  - Email: georges.da-costa@irit.fr  
 
 - **Prof. Yoo Myung Sik**  
-  Department of Electronic Engineering, SSU, Seoul  
-  Email: myoo@ssu.ac.kr  
+  - Department of Electronic Engineering, SSU, Seoul  
+  - Email: myoo@ssu.ac.kr  
 
 - **Kang Mun Hyung**  
-  R&D System, VACE Antenna Co., Ltd  
-  Email: kingmuun@naver.com  
+  - R&D System, VACE Antenna Co., Ltd  
+  - Email: kingmuun@naver.com  
 
 - **Dr. Lam Hong Thach**  
-  Lecturer of SET, HUST  
-  Email: thach.lamhong@hust.edu.vn  
+  - Lecturer of SET, HUST  
+  - Email: thach.lamhong@hust.edu.vn  
 
 ---
