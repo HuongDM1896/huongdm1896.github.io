@@ -11,7 +11,7 @@ redirect_from:
 
 - **MPI**
     1. [TD - Exercise.](/files/TD_MPI.docx)
-    2. [TD - Examples and instructions.](https://github.com/HuongDM1896/MPI/TD)
+    2. [TD - Examples and instructions.](https://github.com/HuongDM1896/MPI/tree/main/TD)
     3. [TP - Exercise.](/files/TP_MPI.docx)
     4. [TP - Code](https://github.com/HuongDM1896/MPI/TP)
 
