@@ -11,15 +11,15 @@ redirect_from:
 
 - **MPI**
     1. [TD - Exercise.](/files/TD_MPI.docx)
-    2. [TD - Examples and instructions.](https://github.com/HuongDM1896/MPI)
+    2. [TD - Examples and instructions.](https://github.com/HuongDM1896/MPI/TD)
     3. [TP - Exercise.](/files/TP_MPI.docx)
-    4. [TP - Code](/files/codes.zip)
+    4. [TP - Code](https://github.com/HuongDM1896/MPI/TP)
 
 
 - **Monitors**
-    1. [TD - Exercise.](/_pages/404.md)
-    2. [TD - Examples and instructions.](/_pages/404.md)
-    3. [TP - Exercise.](/_pages/404.md)
-    4. [TP - Code](/_pages/404.md)
+    1. [TD - Exercise.](/files/Exercise_Monitor.docx)
+    2. [TD - Examples and instructions.](/https://github.com/HuongDM1896/Monitor/tree/main/TD)
+    3. [TP - Exercise.](/files/TPs_monitors.docx)
+    4. [TP - Code](/https://github.com/HuongDM1896/Monitor/tree/main/TP)
 
 ---
