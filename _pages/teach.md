@@ -10,16 +10,13 @@ redirect_from:
 ## KINX7AD1: M1 Computing Parallelism
 
 - **MPI**
-    1. [TD - Exercise.](/files/TD_MPI.docx)
-    2. [TD - Examples and instructions.](https://github.com/HuongDM1896/MPI/tree/main/TD)
-    3. [TP - Exercise.](/files/TP_MPI.docx)
-    4. [TP - Code](https://github.com/HuongDM1896/MPI/TP)
+
+    1. [TD](https://github.com/HuongDM1896/MPI/tree/main/TD)
+    2. [TP](https://github.com/HuongDM1896/MPI/tree/main/TP)
 
 
 - **Monitors**
-    1. [TD - Exercise.](/files/Exercise_Monitor.docx)
-    2. [TD - Examples and instructions.](/https://github.com/HuongDM1896/Monitor/tree/main/TD)
-    3. [TP - Exercise.](/files/TPs_monitors.docx)
-    4. [TP - Code](/https://github.com/HuongDM1896/Monitor/tree/main/TP)
+    1. [TD](https://github.com/HuongDM1896/Monitor/tree/main/TD)
+    2. [TP](https://github.com/HuongDM1896/Monitor/tree/main/TP)
 
 ---
