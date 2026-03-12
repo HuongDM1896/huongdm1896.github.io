@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Quẻ Bài Bát Quái — Huỳnh Liên Tử</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Noto+Serif+SC:wght@400;700&family=Be+Vietnam+Pro:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold:    #c9a84c;
+  --gold2:   #f0d080;
+  --red:     #8b1a1a;
+  --red2:    #c0392b;
+  --dark:    #0e0b06;
+  --dark2:   #1a1408;
+  --dark3:   #241c0c;
+  --cream:   #f5ead0;
+  --ink:     #2a1a08;
+  --smoke:   rgba(201,168,76,0.08);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--dark);
+  color: var(--cream);
+  font-family: 'Be Vietnam Pro', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── Background texture ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 20% 10%, rgba(201,168,76,0.07) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 90%, rgba(139,26,26,0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, rgba(201,168,76,0.03) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Particle canvas ── */
+#particles { position: fixed; inset: 0; pointer-events: none; z-index: 1; opacity: 0.4; }
+
+/* ── Wrapper ── */
+#app {
+  position: relative;
+  z-index: 2;
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 24px 16px 40px;
+}
+
+/* ── Header ── */
+.site-header { text-align: center; margin-bottom: 32px; }
+
+.logo-ornament {
+  font-size: 28px;
+  letter-spacing: 8px;
+  color: var(--gold);
+  opacity: 0.6;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.site-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(22px, 5vw, 34px);
+  font-weight: 700;
+  color: var(--gold2);
+  letter-spacing: 2px;
+  text-shadow: 0 0 30px rgba(201,168,76,0.4);
+  line-height: 1.2;
+}
+
+.site-sub {
+  font-size: 12px;
+  color: rgba(245,234,208,0.45);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-top: 6px;
+}
+
+.divider-ornament {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 14px auto;
+  max-width: 280px;
+}
+.divider-ornament::before,
+.divider-ornament::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+.divider-ornament span { color: var(--gold); font-size: 14px; }
+
+/* ── Phase instruction ── */
+.phase-box {
+  background: rgba(201,168,76,0.07);
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: 12px;
+  padding: 14px 18px;
+  text-align: center;
+  margin-bottom: 28px;
+  transition: all 0.4s;
+}
+.phase-title {
+  font-size: 13px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 4px;
+}
+.phase-desc {
+  font-size: 14px;
+  color: rgba(245,234,208,0.75);
+  line-height: 1.6;
+}
+
+/* ── Bát Quái board ── */
+#board {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  max-width: 560px;
+  margin: 0 auto 32px;
+}
+
+/* ── Card positions (% of board) ── */
+/* 9 positions: center + 8 directions */
+.card-slot {
+  position: absolute;
+  transform: translate(-50%, -50%);
+}
+
+/* Center */
+.slot-center { left: 50%; top: 50%; }
+
+/* Cardinal (N/S/E/W) — farther out */
+.slot-n  { left: 50%;  top: 14%; }
+.slot-s  { left: 50%;  top: 86%; }
+.slot-e  { left: 84%;  top: 50%; }
+.slot-w  { left: 16%;  top: 50%; }
+
+/* Diagonal — matching the image layout */
+.slot-ne { left: 74%;  top: 24%; }
+.slot-nw { left: 26%;  top: 24%; }
+.slot-se { left: 74%;  top: 76%; }
+.slot-sw { left: 26%;  top: 76%; }
+
+/* ── Card ── */
+.card {
+  width: clamp(60px, 13vw, 80px);
+  height: clamp(88px, 19vw, 116px);
+  cursor: pointer;
+  perspective: 600px;
+  position: relative;
+  transition: transform 0.15s;
+}
+
+.card:hover:not(.revealed):not(.center-card) .card-inner {
+  box-shadow: 0 0 18px rgba(201,168,76,0.5), 0 0 6px rgba(201,168,76,0.3);
+}
+
+.card:active:not(.revealed):not(.center-card) {
+  transform: scale(0.95);
+}
+
+.card-inner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.5), 0 0 0 1px rgba(201,168,76,0.15);
+}
+
+.card.revealed .card-inner {
+  transform: rotateY(180deg);
+}
+
+.card-face, .card-back {
+  position: absolute;
+  inset: 0;
+  border-radius: 8px;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  overflow: hidden;
+}
+
+/* ── Card back (sấp) ── */
+.card-back {
+  background: linear-gradient(145deg, #1e1508 0%, #2d2010 40%, #1a1106 100%);
+  border: 1px solid rgba(201,168,76,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-back-pattern {
+  width: 85%;
+  height: 85%;
+  border: 1px solid rgba(201,168,76,0.25);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.card-back-pattern::before {
+  content: '☯';
+  font-size: clamp(18px, 4vw, 28px);
+  color: rgba(201,168,76,0.35);
+}
+
+.card-back-pattern::after {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  border: 1px solid rgba(201,168,76,0.12);
+  border-radius: 3px;
+}
+
+/* ── Card front (ngửa) ── */
+.card-face {
+  transform: rotateY(180deg);
+  background: #fdf6e8;
+  border: 1px solid rgba(201,168,76,0.4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  gap: 2px;
+}
+
+.card-suit {
+  font-size: clamp(20px, 5vw, 32px);
+  line-height: 1;
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.2));
+}
+
+.card-suit.red { color: #c0392b; }
+.card-suit.black { color: #1a1008; }
+
+.card-value {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(12px, 3vw, 18px);
+  font-weight: 700;
+  color: #2a1a08;
+  line-height: 1;
+}
+
+.card-value.red { color: #c0392b; }
+
+/* ── Bản mệnh highlight ── */
+.card.ban-menh .card-back {
+  border-color: rgba(201,168,76,0.8);
+  box-shadow: 0 0 20px rgba(201,168,76,0.4), 0 0 40px rgba(201,168,76,0.15);
+  animation: pulseGold 2s infinite;
+}
+
+@keyframes pulseGold {
+  0%, 100% { box-shadow: 0 0 15px rgba(201,168,76,0.4); }
+  50%       { box-shadow: 0 0 30px rgba(201,168,76,0.7), 0 0 50px rgba(201,168,76,0.2); }
+}
+
+/* ── Center card label ── */
+.card.center-card { cursor: default; }
+.card.center-card .card-back-pattern::before { content: '✦'; }
+
+/* ── Slot labels ── */
+.slot-label {
+  position: absolute;
+  font-size: clamp(7px, 1.5vw, 9px);
+  color: rgba(201,168,76,0.55);
+  letter-spacing: 0.5px;
+  text-align: center;
+  line-height: 1.3;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* ── Octagram decoration ── */
+#octagram {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.08;
+}
+
+/* ── Result panel ── */
+#result-panel {
+  display: none;
+  animation: fadeInUp 0.5s ease;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.result-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.result-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  color: var(--gold2);
+  margin-bottom: 6px;
+}
+
+.result-sub {
+  font-size: 12px;
+  color: rgba(245,234,208,0.45);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+/* ── Reading cards grid ── */
+.readings-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.reading-item {
+  background: rgba(201,168,76,0.05);
+  border: 1px solid rgba(201,168,76,0.15);
+  border-radius: 10px;
+  padding: 14px 16px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 12px;
+  align-items: start;
+  animation: fadeInItem 0.5s ease both;
+}
+
+@keyframes fadeInItem {
+  from { opacity: 0; transform: translateX(-10px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+.reading-item.is-ban-menh {
+  border-color: rgba(201,168,76,0.5);
+  background: rgba(201,168,76,0.09);
+}
+
+.reading-card-mini {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  min-width: 44px;
+}
+
+.mini-suit { font-size: 22px; line-height: 1; }
+.mini-suit.red   { color: #c0392b; }
+.mini-suit.black { color: var(--cream); }
+.mini-value {
+  font-family: 'Playfair Display', serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--gold);
+}
+
+.reading-content {}
+.reading-month {
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--gold);
+  opacity: 0.7;
+  margin-bottom: 3px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ban-menh-badge {
+  background: var(--gold);
+  color: var(--dark);
+  font-size: 8px;
+  font-weight: 600;
+  padding: 1px 6px;
+  border-radius: 10px;
+  letter-spacing: 1px;
+}
+
+.reading-text {
+  font-size: 13px;
+  color: rgba(245,234,208,0.85);
+  line-height: 1.65;
+}
+
+/* ── Buttons ── */
+.btn-primary {
+  display: block;
+  width: 100%;
+  max-width: 280px;
+  margin: 20px auto 0;
+  padding: 13px 28px;
+  background: linear-gradient(135deg, #7a5c1e, #c9a84c, #7a5c1e);
+  background-size: 200% 100%;
+  border: 1px solid rgba(201,168,76,0.4);
+  border-radius: 30px;
+  color: #0e0b06;
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-align: center;
+}
+
+.btn-primary:hover {
+  background-position: 100% 0;
+  box-shadow: 0 0 24px rgba(201,168,76,0.4);
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  display: block;
+  width: 100%;
+  max-width: 280px;
+  margin: 10px auto 0;
+  padding: 10px 28px;
+  background: transparent;
+  border: 1px solid rgba(201,168,76,0.3);
+  border-radius: 30px;
+  color: rgba(201,168,76,0.7);
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+.btn-secondary:hover {
+  border-color: rgba(201,168,76,0.6);
+  color: var(--gold2);
+}
+
+/* ── Footer ── */
+.site-footer {
+  text-align: center;
+  margin-top: 40px;
+  font-size: 11px;
+  color: rgba(245,234,208,0.25);
+  letter-spacing: 1px;
+}
+
+/* ── Reveal all btn ── */
+#btn-reveal-all {
+  display: none;
+  margin: 0 auto 24px;
+}
+
+/* ── Glow on hover for unflipped ── */
+.card:not(.revealed):not(.center-card):not(.ban-menh) {
+  cursor: pointer;
+}
+.card:not(.revealed):not(.center-card):not(.ban-menh):hover .card-back {
+  border-color: rgba(201,168,76,0.55);
+}
+
+/* ── Mobile ── */
+@media (max-width: 480px) {
+  #board { max-width: 340px; }
+}
+</style>
+</head>
+<body>
+
+<canvas id="particles"></canvas>
+
+<div id="app">
+  <header class="site-header">
+    <span class="logo-ornament">✦ ✦ ✦</span>
+    <h1 class="site-title">Quẻ Bài Bát Quái</h1>
+    <p class="site-sub">Huỳnh Liên Tử — Xem vận một năm</p>
+    <div class="divider-ornament"><span>☽</span></div>
+  </header>
+
+  <div class="phase-box" id="phase-box">
+    <div class="phase-title" id="phase-title">Bước 1 — Chọn Lá Bản Mệnh</div>
+    <div class="phase-desc" id="phase-desc">Hãy tập trung tâm trí, rồi chạm vào một trong <strong>8 lá bài</strong> xung quanh để chọn lá bản mệnh của bạn.</div>
+  </div>
+
+  <!-- Board -->
+  <div id="board">
+    <!-- Octagram SVG decoration -->
+    <svg id="octagram" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">
+      <polygon points="50,5 61,39 95,39 68,61 79,95 50,73 21,95 32,61 5,39 39,39" fill="none" stroke="#c9a84c" stroke-width="0.4"/>
+      <circle cx="50" cy="50" r="30" fill="none" stroke="#c9a84c" stroke-width="0.25"/>
+      <circle cx="50" cy="50" r="44" fill="none" stroke="#c9a84c" stroke-width="0.2"/>
+    </svg>
+
+    <!-- Cards will be injected here by JS -->
+  </div>
+
+  <button class="btn-primary" id="btn-reveal-all" onclick="revealAll()" style="display:none">
+    ✦ Lật Tất Cả Lá Bài ✦
+  </button>
+
+  <!-- Result panel -->
+  <div id="result-panel">
+    <div class="result-header">
+      <div class="divider-ornament"><span>✦</span></div>
+      <h2 class="result-title">Giải Quẻ Một Năm</h2>
+      <p class="result-sub">Căn cứ chất & số lá bài</p>
+    </div>
+    <div class="readings-grid" id="readings-grid"></div>
+    <button class="btn-secondary" onclick="resetGame()">↺ &nbsp;Xem Lại Từ Đầu</button>
+  </div>
+
+  <footer class="site-footer">
+    <p>Tham khảo từ sách Bói Bài — Huỳnh Liên Tử</p>
+    <p style="margin-top:4px">Chỉ mang tính giải trí tâm linh dân gian</p>
+  </footer>
+</div>
+
+<script>
+/* ============================================================
+   BÓI QUẺ BÀI BÁT QUÁI — Huỳnh Liên Tử
+   ============================================================ */
+
+/* ── Data ── */
+const SUITS = { '♥': 'red', '♦': 'red', '♣': 'black', '♠': 'black' };
+const SUIT_NAMES = { '♥': 'Cơ', '♦': 'Rô', '♣': 'Nhép', '♠': 'Bích' };
+
+// Slot definitions: { key, slotClass, labelLines, month }
+// month = "Tháng X", "Trung cung", or special
+const SLOTS = [
+  { key: 'center', cls: 'slot-center', label: 'Trung\nCung',   month: 'Trung cung' },
+  { key: 'n',      cls: 'slot-n',      label: 'Tháng\n8 Tám',  month: 'Tháng 8'   },
+  { key: 's',      cls: 'slot-s',      label: 'Tháng\n2 Hai',  month: 'Tháng 2'   },
+  { key: 'e',      cls: 'slot-e',      label: 'Tháng\n11 M.Một', month: 'Tháng 11' },
+  { key: 'w',      cls: 'slot-w',      label: 'Tháng\n5 Năm',  month: 'Tháng 5'   },
+  { key: 'ne',     cls: 'slot-ne',     label: 'Tháng\n9–10',   month: 'Tháng 9'   },
+  { key: 'nw',     cls: 'slot-nw',     label: 'Tháng\n6–7',    month: 'Tháng 6'   },
+  { key: 'se',     cls: 'slot-se',     label: 'Tháng\n12 – 1', month: 'Tháng 12'  },
+  { key: 'sw',     cls: 'slot-sw',     label: 'Tháng\n3–4',    month: 'Tháng 3'   },
+];
+
+// ── Bản mệnh reading (chỉ theo chất) ──
+const BAN_MENH_READINGS = {
+  '♥': { ten: 'Cơ', y: 'Vui mừng, chủ gia đạo.' },
+  '♦': { ten: 'Rô', y: 'Sự đợi chờ tin tức, công danh sự nghiệp.' },
+  '♣': { ten: 'Tép', y: 'Tiền bạc.' },
+  '♠': { ten: 'Bích', y: 'Phiền muộn nạn tai.' },
+};
+
+// ── Reading data ──
+// Structure: READINGS[month][suit] = "text"
+const READINGS = {
+  'Tháng 1': {
+    '♥': 'Vui vẻ, hạnh phúc nhiều.',
+    '♦': 'Xấu — xuất hành hay đi xa thì bất lợi.',
+    '♣': 'May mắn về tiền bạc.',
+    '♠': 'Rất buồn, tán tài, ốm đau — nói chung có nhiều chuyện buồn.',
+  },
+  'Tháng 2': {
+    '♥': 'Có tin tức thư từ từ xa gửi về hoặc quà biếu.',
+    '♦': 'Bình an, nhà cửa vui vẻ, kẻ đi người về tất bật êm xuôi.',
+    '♣': 'Thận trọng làm ăn, coi chừng hao tài thua lỗ và mất của.',
+    '♠': 'Có sự xích mích lứa đôi vợ chồng, gia đạo đảo lộn thiếu hạnh phúc do sự hiểu lầm.',
+  },
+  'Tháng 3': {
+    '♥': 'Trong gia đình có người xa đi về.',
+    '♦': 'Say mê về tình cảm, cũng buồn phiền nhiều do tình cảm — lụy ít thôi.',
+    '♣': 'Làm ăn may mắn, tiền bạc vào nhiều.',
+    '♠': 'Chẳng làm ăn được gì, nên nghỉ ngơi cho khỏe cái thân.',
+  },
+  'Tháng 4': {
+    '♥': 'Tình — tiền đều tốt.',
+    '♦': 'Rất lộn xộn, công việc bù đầu mãi chẳng xong, bực mình nhiều.',
+    '♣': 'Nhiều công chuyện làm ăn, phải bôn ba nhưng có lợi.',
+    '♠': 'Coi chừng nhiều thua thiệt và phòng bị quân trộm đạo gian ác.',
+  },
+  'Tháng 5': {
+    '♥': 'Nhiều tin mừng vui may, gia đạo cũng tốt tươi hạnh phúc, làm việc gì cũng thành.',
+    '♦': 'Công danh thời tới, thăng tiến.',
+    '♣': 'Tài lộc bền vững, tiền bạc làm ra nhiều, buôn bán phát đạt.',
+    '♠': 'Nguy hại, nên phòng thân, coi chừng tai nạn về xe cộ hoặc té ngã sông đò.',
+  },
+  'Tháng 6': {
+    '♥': 'Điềm lành, bất cứ điều gì xảy ra đều tốt.',
+    '♦': 'Vui vẻ, có sự ra đi rất tốt.',
+    '♣': 'Nên thận trọng trong làm ăn buôn bán hợp hùn các thứ, coi chừng bị lừa gạt hay thua thiệt.',
+    '♠': 'Nguy hại, phòng tiểu nhân ám hại trên mọi phương diện làm ăn, coi chừng kiện tụng pháp lý.',
+  },
+  'Tháng 7': {
+    '♥': 'Tình cảm có sự buồn, cô đơn trống vắng.',
+    '♦': 'Đường tình ái lung lay, có sự buồn khổ, gia đạo hạnh phúc bị giảm sút.',
+    '♣': 'Xuất tiền ra rất nhiều để mở mang buôn bán hay hùn hạp làm ăn — không lỗ nhưng lợi lộc chưa có, phải chờ đợi.',
+    '♠': 'Xấu nhiều trên mọi phương diện — toàn là sự thua thiệt và bị lừa đảo, phản bội.',
+  },
+  'Tháng 8': {
+    '♥': 'Rất đầm ấm, cuộc sống dồi dào hạnh phúc, gia đạo vui vầy tốt đẹp.',
+    '♦': 'Công danh sự nghiệp nhiều may mắn.',
+    '♣': 'Bạc tiền vào, phát tài bất ngờ.',
+    '♠': 'Xui xẻo, làm ăn thua thiệt, bạn bè phản bội.',
+  },
+  'Tháng 9': {
+    '♥': 'Vài tin mừng, tin lành tới.',
+    '♦': 'Tốt có xấu có, có sự phiền muộn mà cũng có sự vui mừng.',
+    '♣': 'Sự làm ăn phát đạt, tiền bạc tự nhiên đến và lợi lộc nhiều.',
+    '♠': 'Điều phiền muộn xảy ra, có tang chế trong họ hàng thân thuộc.',
+  },
+  'Tháng 10': {
+    '♥': 'Có sự đổi dời đi xa.',
+    '♦': 'Có sự sửa sang nhà cửa, tôn tạo sân vườn, hoặc trong nhà sắp làm đám cưới.',
+    '♣': 'Sự bán buôn hay bất cứ việc gì liên quan đến tiền thì phải cẩn thận, không vội vã hùn hạp kẻo hao tài tốn của.',
+    '♠': 'Gặp chuyện thị phi, có người gièm pha chọc phá gây nên nhiều việc bực mình.',
+  },
+  'Tháng 11': {
+    '♥': 'Tuy không có sự khổ đau nhưng có sự lo lắng sốt ruột, ngóng trông chờ đợi gì đó.',
+    '♦': 'Có sự xuất hành đi xa và sự xuất hành này phải thận trọng phòng ngừa tai nạn.',
+    '♣': 'Có thêm con cháu, bình an.',
+    '♠': 'Nhiều khó khăn gian nan mọi việc, lại còn vướng chuyện phiền về tình cảm gia đạo.',
+  },
+  'Tháng 12': {
+    '♥': 'Mọi sự an vui, một nhà đoàn viên.',
+    '♦': 'Có sự thăng tiến công danh.',
+    '♣': 'Tiền — tình đều như ý.',
+    '♠': 'Xấu, nên bình tĩnh trong mọi hoàn cảnh, không nóng giận, dễ gặp tai họa liên lụy vào thân.',
+  },
+  'Trung cung': {
+    '♥': 'Gia đạo đầm ấm đầy đủ, hạnh phúc.',
+    '♦': 'Có nhiều sự buồn vui lẫn lộn, thường hay di chuyển đó đây.',
+    '♣': 'Tốt — sự làm ăn gặp nhiều may mắn, phát tài, gia đình nhiều vui may.',
+    '♠': 'Xui xẻo nhiều, sự làm ăn bị tán tài hao của, gia đạo bất hòa, bổn mạng và con cái ốm đau, thường gặp kẻ tiểu nhân phá quấy, tai nạn khó lường.',
+  },
+};
+
+// Value readings (by card value)
+const VALUE_READINGS = {
+  'A': {
+    '♥': 'Tình duyên tốt đẹp — gia đình hạnh phúc — nhiều phúc lành.',
+    '♦': 'Di chuyển thay đổi, xuất hành được công danh tốt, tiền tài sự nghiệp đắc thành.',
+    '♣': 'Tài bạch tốt, bán buôn phất lên.',
+    '♠': 'Hung hiểm gian nan, sợ là có tang.',
+  },
+  'K': {
+    '♥': 'Tốt, công danh tốt, tiền tài cũng tốt.',
+    '♦': 'Công danh phất lên, thăng thưởng.',
+    '♣': 'Buôn bán phát tài.',
+    '♠': 'Hung hiểm, ưu phiền thương đau, đề phòng kẻ xấu hại mình.',
+  },
+  'Q': {
+    '♥': 'Tin thư báo hỉ sự, vợ chồng lứa đôi đầm ấm.',
+    '♦': 'Bỗng dưng có tình ái vào đời, hạnh phúc.',
+    '♣': 'Tài lộc thênh thang, bán buôn được thời, có lộc.',
+    '♠': 'Tai vạ dập đồn, cẩn thận phường trộm cắp lọc lừa, quân gian tà xảo ngôn.',
+  },
+  'J': {
+    '♥': 'Tình cảm dạt dào, vui vẻ hạnh phúc.',
+    '♦': 'Công danh có sẵn giờ càng phất lên, có sự đi đây đi đó, rời nơi hiện tại đến miền xa xôi.',
+    '♣': 'Túng quẫn lâu rồi giờ đã tạm thời đủ, gặp vận may, thời tới.',
+    '♠': 'Thận trọng đi đường gặp tai ương, buôn bán không được tin ai, có khi bị hao hại mấy lần.',
+  },
+  '10': {
+    '♥': 'Tin vui đưa đến, ấm êm gia đạo.',
+    '♦': 'Báo hiệu ra đi giã từ khi nhận thư tín tin tức, bình an thượng lộ, tốt.',
+    '♣': 'Có người diễu võ dương oai nhưng mặc kệ là được, bán buôn tốt, làm ăn có tài lộc.',
+    '♠': 'Ốm đau lay lắt, hao tài tốn của, buồn rầu, phòng sông nước lúc lên xuống tàu thuyền hay cầu thang.',
+  },
+  '9': {
+    '♥': 'Việc đã định sẵn là nên làm, tin vui sẽ đến, nhà cửa êm ấm, có thêm cháu nhỏ.',
+    '♦': 'Báo sự lên đường, di chuyển vấn vương giã từ — người đi kẻ ở, công việc lệch pha.',
+    '♣': 'Buôn bán phát tài.',
+    '♠': 'Coi chừng trộm cắp, xuất hành lôi thôi, công việc chẳng thành.',
+  },
+  '8': {
+    '♥': 'Bao phen gập ghềnh, giờ đây đã yên lành.',
+    '♦': 'Bao mòn mỏi đợi chờ thì công danh đã đến như cờ vào tay — phất thôi, xuất hành gặp may nhiều.',
+    '♣': 'Bao ngày chăm lo sớm tối, giờ đây được đền đáp — tiền bạc giờ không còn là vấn đề.',
+    '♠': 'Coi chừng điều tiếng thị phi, tiểu nhân hãm hại, có tin tức thư từ chê cười mình.',
+  },
+  '7': {
+    '♥': 'Bản mệnh bình an nhưng tình cảm lại lung lay.',
+    '♦': 'Ra đi phải phòng cẩn thận tại ách, kiện tụng lôi thôi.',
+    '♣': 'Bôn ba buôn bán khắp nơi rồi phát tài phát lộc.',
+    '♠': 'Chớ vội cả tin, gặp kẻ lừa đảo, đau lòng, vu oan giá họa — cẩn thận mới thoát được oan khiên.',
+  },
+};
+
+/* ── Generate & shuffle deck ── */
+function makeDeck() {
+  const suits = ['♥', '♦', '♣', '♠'];
+  const values = ['A', 'K', 'Q', 'J', '10', '9', '8', '7'];
+  const deck = [];
+  suits.forEach(s => values.forEach(v => deck.push({ suit: s, value: v })));
+  // shuffle
+  for (let i = deck.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [deck[i], deck[j]] = [deck[j], deck[i]];
+  }
+  return deck;
+}
+
+/* ── State ── */
+let state = {
+  phase: 1,        // 1=pick ban menh, 2=reveal all, 3=done
+  deck: [],
+  cards: [],       // { slotKey, card, revealed, isBanMenh }
+  banMenhKey: null,
+};
+
+function init() {
+  state.phase = 1;
+  state.deck = makeDeck();
+  state.banMenhKey = null;
+  state.cards = SLOTS.map((slot, i) => ({
+    slotKey: slot.key,
+    card: state.deck[i],
+    revealed: false,
+    isBanMenh: false,
+  }));
+
+  document.getElementById('result-panel').style.display = 'none';
+  document.getElementById('btn-reveal-all').style.display = 'none';
+  document.getElementById('phase-box').style.display = '';
+
+  setPhaseText(1);
+  renderBoard();
+}
+
+function setPhaseText(phase) {
+  const title = document.getElementById('phase-title');
+  const desc  = document.getElementById('phase-desc');
+  if (phase === 1) {
+    title.textContent = 'Bước 1 — Chọn Lá Bản Mệnh';
+    desc.innerHTML = 'Hãy tập trung tâm trí, rồi chạm vào một trong <strong>8 lá bài</strong> xung quanh để chọn lá bản mệnh của bạn.';
+  } else if (phase === 2) {
+    title.textContent = 'Bước 2 — Lật Tất Cả Lá Bài';
+    desc.innerHTML = 'Đã chọn lá bản mệnh. Nhấn nút bên dưới để lật tất cả các lá còn lại và xem quẻ cho cả năm.';
+  }
+}
+
+/* ── Render board ── */
+function renderBoard() {
+  const board = document.getElementById('board');
+  // remove old cards
+  board.querySelectorAll('.card-slot').forEach(e => e.remove());
+
+  state.cards.forEach(c => {
+    const slot = SLOTS.find(s => s.key === c.slotKey);
+    const isCenter = c.slotKey === 'center';
+
+    const slotEl = document.createElement('div');
+    slotEl.className = `card-slot ${slot.cls}`;
+
+    // Label
+    const labelEl = document.createElement('div');
+    labelEl.className = 'slot-label';
+    // position label above or below based on slot
+    const labelAbove = ['n', 'ne', 'nw'].includes(c.slotKey);
+    const labelBelow = ['s', 'se', 'sw'].includes(c.slotKey);
+    const labelLeft  = ['w'].includes(c.slotKey);
+    const labelRight = ['e'].includes(c.slotKey);
+    if (labelAbove) {
+      labelEl.style.cssText = 'bottom: calc(100% + 2px); left: 50%; transform: translateX(-50%);';
+    } else if (labelBelow) {
+      labelEl.style.cssText = 'top: calc(100% + 2px); left: 50%; transform: translateX(-50%);';
+    } else if (labelLeft) {
+      labelEl.style.cssText = 'right: calc(100% + 4px); top: 50%; transform: translateY(-50%); text-align: right;';
+    } else if (labelRight) {
+      labelEl.style.cssText = 'left: calc(100% + 4px); top: 50%; transform: translateY(-50%);';
+    } else {
+      // center — no label shown
+    }
+    if (!isCenter) {
+      labelEl.textContent = slot.label.replace('\n', ' ');
+      slotEl.appendChild(labelEl);
+    }
+
+    // Card
+    const cardEl = document.createElement('div');
+    cardEl.className = 'card' + (isCenter ? ' center-card' : '') + (c.revealed ? ' revealed' : '') + (c.isBanMenh ? ' ban-menh' : '');
+    cardEl.dataset.key = c.slotKey;
+
+    if (!isCenter) {
+      cardEl.onclick = () => handleCardClick(c.slotKey);
+    }
+
+    const inner = document.createElement('div');
+    inner.className = 'card-inner';
+
+    // Back
+    const back = document.createElement('div');
+    back.className = 'card-back';
+    const bp = document.createElement('div');
+    bp.className = 'card-back-pattern';
+    back.appendChild(bp);
+
+    // Front
+    const front = document.createElement('div');
+    front.className = 'card-face';
+    const suitColor = SUITS[c.card.suit];
+    front.innerHTML = `
+      <div class="card-suit ${suitColor}">${c.card.suit}</div>
+      <div class="card-value ${suitColor}">${c.card.value}</div>
+    `;
+
+    inner.appendChild(back);
+    inner.appendChild(front);
+    cardEl.appendChild(inner);
+    slotEl.appendChild(cardEl);
+    board.appendChild(slotEl);
+  });
+}
+
+/* ── Handle card click ── */
+function handleCardClick(key) {
+  if (key === 'center') return;
+
+  if (state.phase === 1) {
+    // Pick ban menh
+    state.banMenhKey = key;
+    state.cards = state.cards.map(c => ({
+      ...c,
+      isBanMenh: c.slotKey === key,
+      revealed: c.slotKey === key ? true : c.revealed,
+    }));
+    state.phase = 2;
+
+    renderBoard();
+    setPhaseText(2);
+
+    // Show reveal button after short delay
+    setTimeout(() => {
+      document.getElementById('btn-reveal-all').style.display = 'block';
+    }, 500);
+
+  }
+}
+
+/* ── Reveal all ── */
+function revealAll() {
+  document.getElementById('btn-reveal-all').style.display = 'none';
+  document.getElementById('phase-box').style.display = 'none';
+
+  // Reveal one by one with delay
+  const unrevealed = state.cards.filter(c => !c.revealed);
+  unrevealed.forEach((c, i) => {
+    setTimeout(() => {
+      state.cards = state.cards.map(card =>
+        card.slotKey === c.slotKey ? { ...card, revealed: true } : card
+      );
+      renderBoard();
+      if (i === unrevealed.length - 1) {
+        setTimeout(showResults, 600);
+      }
+    }, i * 200);
+  });
+}
+
+/* ── Show results ── */
+function showResults() {
+  state.phase = 3;
+  const panel = document.getElementById('result-panel');
+  const grid  = document.getElementById('readings-grid');
+  grid.innerHTML = '';
+
+  // Month order mapping: slot key → tháng number (for sorting)
+  const MONTH_ORDER = {
+    'n': 8, 's': 2, 'e': 11, 'w': 5,
+    'ne': 9, 'nw': 6, 'se': 12, 'sw': 3,
+  };
+  // Diagonal slots cover 2 months each — we show both
+  const EXTRA_MONTHS = {
+    'ne': 'Tháng 10', 'nw': 'Tháng 7', 'se': 'Tháng 1', 'sw': 'Tháng 4',
+  };
+
+  const banMenh = state.cards.find(c => c.isBanMenh);
+  const trungCung = state.cards.find(c => c.slotKey === 'center');
+  const others = state.cards
+    .filter(c => !c.isBanMenh && c.slotKey !== 'center')
+    .sort((a, b) => MONTH_ORDER[a.slotKey] - MONTH_ORDER[b.slotKey]);
+
+  // Build display list: ban menh, trung cung, then tháng in order
+  // For diagonal slots we need to show readings for both months
+  const displayList = [];
+
+  // 1. Bản mệnh
+  if (banMenh) displayList.push({ c: banMenh, isBanMenh: true });
+
+  // 2. Trung cung
+  if (trungCung) displayList.push({ c: trungCung, isBanMenh: false });
+
+  // 3. Các tháng — build month 1–12 in order
+  // Collect all 12 months from 8 slots (4 diagonal = 2 months each)
+  const monthCards = [];
+  others.forEach(c => {
+    const slot = SLOTS.find(s => s.key === c.slotKey);
+    // Primary month
+    monthCards.push({ month: slot.month, c });
+    // Extra month for diagonal slots
+    if (EXTRA_MONTHS[c.slotKey]) {
+      monthCards.push({ month: EXTRA_MONTHS[c.slotKey], c });
+    }
+  });
+  // Sort by month number 1–12
+  monthCards.sort((a, b) => {
+    const na = parseInt(a.month.replace('Tháng ', ''));
+    const nb = parseInt(b.month.replace('Tháng ', ''));
+    return na - nb;
+  });
+  monthCards.forEach(m => displayList.push({ c: m.c, isBanMenh: false, overrideMonth: m.month }));
+
+  displayList.forEach(({ c, isBanMenh, overrideMonth }, idx) => {
+    const slot  = SLOTS.find(s => s.key === c.slotKey);
+    const month = overrideMonth || slot.month;
+    const suit  = c.card.suit;
+    const val   = c.card.value;
+    const suitColor = SUITS[suit];
+
+    let reading = '';
+    let monthLabel = month;
+
+    if (isBanMenh) {
+      // Bản mệnh: chỉ đọc theo chất
+      const bm = BAN_MENH_READINGS[suit];
+      reading = bm ? bm.y : '';
+      monthLabel = 'Lá Bản Mệnh';
+    } else {
+      // Tháng / Trung cung: đọc theo chất + số
+      reading = READINGS[month]?.[suit] || '';
+      const valReading = VALUE_READINGS[val]?.[suit];
+      if (valReading) reading += (reading ? ' ' : '') + valReading;
+    }
+
+    const item = document.createElement('div');
+    item.className = 'reading-item' + (isBanMenh ? ' is-ban-menh' : '');
+    item.style.animationDelay = (idx * 0.07) + 's';
+
+    item.innerHTML = `
+      <div class="reading-card-mini">
+        <div class="mini-suit ${suitColor}">${suit}</div>
+        <div class="mini-value">${isBanMenh ? BAN_MENH_READINGS[suit]?.ten || val : val}</div>
+      </div>
+      <div class="reading-content">
+        <div class="reading-month">
+          ${monthLabel}
+          ${isBanMenh ? '<span class="ban-menh-badge">BẢN MỆNH</span>' : ''}
+        </div>
+        <div class="reading-text">${reading}</div>
+      </div>
+    `;
+    grid.appendChild(item);
+  });
+
+  panel.style.display = 'block';
+  panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+/* ── Reset ── */
+function resetGame() {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  setTimeout(init, 300);
+}
+
+/* ── Particles ── */
+(function() {
+  const canvas = document.getElementById('particles');
+  const ctx = canvas.getContext('2d');
+  let W, H, particles = [];
+
+  function resize() {
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+
+  function makeParticle() {
+    return {
+      x: Math.random() * W,
+      y: Math.random() * H,
+      r: Math.random() * 1.2 + 0.3,
+      vx: (Math.random() - 0.5) * 0.15,
+      vy: -Math.random() * 0.3 - 0.1,
+      alpha: Math.random() * 0.5 + 0.1,
+      life: Math.random(),
+    };
+  }
+
+  function init() {
+    resize();
+    particles = Array.from({ length: 60 }, makeParticle);
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    particles.forEach((p, i) => {
+      p.x += p.vx;
+      p.y += p.vy;
+      p.life += 0.002;
+      if (p.y < -5 || p.life > 1) particles[i] = makeParticle();
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(201,168,76,${p.alpha * (1 - p.life)})`;
+      ctx.fill();
+    });
+    requestAnimationFrame(draw);
+  }
+
+  window.addEventListener('resize', resize);
+  init();
+  draw();
+})();
+
+/* ── Start ── */
+init();
+</script>
+</body>
+</html>
