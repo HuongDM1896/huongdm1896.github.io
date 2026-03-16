@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Scholar Scraper — huongdm1896</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg-deep: #0d0d0f;
+      --bg-surface: #141416;
+      --bg-elevated: #1a1a1e;
+      --border: #2a2a30;
+      --text-primary: #e8e8ec;
+      --text-secondary: #9494a0;
+      --text-dim: #55555f;
+      --coral: #ff5c4a;
+      --amber: #f5a623;
+      --green: #4ade80;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg-deep);
+      color: var(--text-primary);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* NAV */
+    nav {
+      border-bottom: 1px solid var(--border);
+      background: var(--bg-surface);
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      gap: 0;
+      height: 52px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-brand {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 15px;
+      color: var(--coral);
+      text-decoration: none;
+      letter-spacing: -0.5px;
+      margin-right: 32px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      list-style: none;
+      height: 100%;
+    }
+
+    .nav-links a {
+      display: flex;
+      align-items: center;
+      height: 100%;
+      padding: 0 16px;
+      font-family: 'Syne', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      text-decoration: none;
+      border-bottom: 2px solid transparent;
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--text-primary);
+      border-bottom-color: var(--coral);
+    }
+
+    .nav-links a.active {
+      color: var(--coral);
+    }
+
+    /* WRAPPER */
+    .wrapper {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 40px 24px 80px;
+    }
+
+    /* HEADER */
+    .page-header {
+      margin-bottom: 32px;
+    }
+
+    .header-eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 3px;
+      color: var(--amber);
+      opacity: 0.7;
+      margin-bottom: 8px;
+    }
+
+    h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(28px, 5vw, 40px);
+      font-weight: 800;
+      color: var(--coral);
+      letter-spacing: -1px;
+      line-height: 1;
+    }
+
+    .header-sub {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-top: 8px;
+    }
+
+    .dot-row {
+      display: flex;
+      gap: 5px;
+      margin-top: 20px;
+    }
+
+    .dot-row span {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--border);
+    }
+
+    /* SEARCH CARD */
+    .card {
+      border: 1px solid var(--border);
+      background: var(--bg-surface);
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .card-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 16px;
+    }
+
+    .search-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    input[type="text"], input[type="number"], select {
+      background: var(--bg-deep);
+      border: 1px solid var(--border);
+      color: var(--text-primary);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      padding: 10px 12px;
+      outline: none;
+      transition: border-color 0.2s;
+      width: 100%;
+    }
+
+    input::placeholder { color: var(--text-dim); }
+
+    input:focus, select:focus {
+      border-color: var(--coral);
+    }
+
+    select option { background: var(--bg-deep); }
+
+    #main-query { flex: 1; }
+
+    .btn-search {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--coral);
+      color: var(--bg-deep);
+      border: none;
+      padding: 10px 24px;
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .btn-search:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(255,92,74,0.25); }
+    .btn-search:active { transform: scale(0.97); }
+    .btn-search:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+    .search-tips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px 16px;
+      font-size: 11px;
+      color: var(--text-dim);
+      margin-bottom: 14px;
+      line-height: 1.6;
+    }
+
+    .search-tips .label { color: var(--text-secondary); }
+    .search-tips .mono { font-family: 'DM Mono', monospace; color: var(--amber); font-size: 10px; opacity: 0.85; }
+    .search-tips .sep { color: var(--border); }
+
+    .filters-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    @media (min-width: 640px) {
+      .filters-grid { grid-template-columns: repeat(4, 1fr); }
+    }
+
+    .field-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .advanced-toggle {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: none;
+      border: none;
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      cursor: pointer;
+      transition: color 0.2s;
+      padding: 0;
+    }
+
+    .advanced-toggle:hover { color: var(--coral); }
+
+    .advanced-section {
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+      margin-top: 14px;
+    }
+
+    /* Toggle switch */
+    .toggle-label {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      margin-bottom: 14px;
+    }
+
+    .toggle-track {
+      position: relative;
+      width: 36px;
+      height: 20px;
+      border-radius: 20px;
+      background: var(--bg-deep);
+      border: 1px solid var(--border);
+      transition: background 0.2s, border-color 0.2s;
+      flex-shrink: 0;
+    }
+
+    .toggle-track.on {
+      background: var(--coral);
+      border-color: var(--coral);
+    }
+
+    .toggle-thumb {
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--text-secondary);
+      transition: left 0.2s, background 0.2s;
+    }
+
+    .toggle-track.on .toggle-thumb {
+      left: 18px;
+      background: var(--bg-deep);
+    }
+
+    .toggle-text { font-size: 13px; color: var(--text-secondary); }
+
+    .survey-btns {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+
+    .survey-btn {
+      flex: 1;
+      padding: 6px;
+      font-family: 'Syne', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      border: 1px solid var(--border);
+      background: var(--bg-deep);
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .survey-btn:hover { border-color: var(--coral); color: var(--text-primary); }
+    .survey-btn.active { background: var(--coral); color: var(--bg-deep); border-color: var(--coral); }
+
+    /* ERROR */
+    .error-box {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      border: 1px solid rgba(255,90,90,0.3);
+      background: rgba(255,90,90,0.05);
+      padding: 12px 16px;
+      margin-bottom: 16px;
+      color: #f87171;
+      font-size: 13px;
+    }
+
+    /* LOADING */
+    .loading-box {
+      border: 1px solid var(--border);
+      background: var(--bg-surface);
+      padding: 60px 20px;
+      text-align: center;
+      margin-bottom: 16px;
+    }
+
+    .spin {
+      display: inline-block;
+      width: 32px;
+      height: 32px;
+      border: 2px solid var(--border);
+      border-top-color: var(--coral);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin-bottom: 16px;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .loading-title { font-family: 'Syne', sans-serif; font-size: 13px; color: var(--text-secondary); }
+    .loading-sub { font-size: 11px; color: var(--text-dim); margin-top: 4px; }
+
+    /* RESULTS TOOLBAR */
+    .toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .toolbar-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .toolbar-title .slash { color: var(--coral); font-size: 12px; }
+    .toolbar-meta { font-family: 'DM Sans', sans-serif; font-size: 12px; color: var(--text-dim); font-weight: 400; }
+
+    .toolbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .select-info { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--amber); font-weight: 500; }
+    .select-dim { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text-dim); }
+
+    .btn-export {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border: 1px solid var(--border);
+      background: var(--bg-surface);
+      color: var(--text-secondary);
+      font-family: 'Syne', sans-serif;
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 7px 14px;
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .btn-export:hover { border-color: var(--coral); color: var(--text-primary); }
+    .btn-export:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    /* TABLE */
+    .table-wrap {
+      border: 1px solid var(--border);
+      background: var(--bg-surface);
+      overflow: hidden;
+    }
+
+    .table-scroll { overflow-x: auto; }
+
+    table { width: 100%; border-collapse: collapse; table-layout: fixed; font-size: 12px; }
+
+    thead tr { border-bottom: 1px solid var(--border); background: var(--bg-elevated); }
+
+    th {
+      padding: 10px 12px;
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      text-align: left;
+      font-weight: 500;
+    }
+
+    th.right { text-align: right; }
+    th.center { text-align: center; }
+
+    tbody tr { border-bottom: 1px solid var(--border); transition: background 0.15s; }
+    tbody tr:hover { background: var(--bg-elevated); }
+    tbody tr.selected { background: var(--bg-elevated); }
+    tbody tr:last-child { border-bottom: none; }
+
+    td { padding: 10px 12px; vertical-align: top; }
+    td.right { text-align: right; }
+    td.center { text-align: center; }
+
+    .td-title { font-weight: 500; color: var(--text-primary); line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .td-authors { color: var(--text-secondary); line-height: 1.5; }
+    .td-pub { color: var(--text-secondary); line-height: 1.5; }
+
+    .year-badge {
+      display: inline-block;
+      background: rgba(245,166,35,0.1);
+      color: var(--amber);
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      font-weight: 500;
+      padding: 2px 8px;
+      letter-spacing: 1px;
+    }
+
+    .cite-val { font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 500; color: var(--text-secondary); }
+    .dash { color: var(--text-dim); }
+
+    .oa-icon { color: var(--green); font-size: 13px; }
+
+    .btn-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      background: none;
+      border: none;
+      color: var(--text-dim);
+      cursor: pointer;
+      transition: color 0.15s;
+      font-size: 14px;
+    }
+
+    .btn-icon:hover { color: var(--coral); }
+
+    a.btn-icon { text-decoration: none; }
+
+    /* Abstract row */
+    .abstract-row td { padding-top: 0; }
+    .abstract-inner {
+      border-left: 2px solid rgba(255,92,74,0.35);
+      padding-left: 12px;
+      margin-left: 20px;
+    }
+    .abstract-text { font-size: 11px; color: var(--text-secondary); line-height: 1.65; }
+
+    /* MOBILE CARDS */
+    .cards-list { display: flex; flex-direction: column; gap: 10px; }
+
+    .card-item {
+      border: 1px solid var(--border);
+      background: var(--bg-surface);
+      transition: border-color 0.2s;
+    }
+
+    .card-item.selected { border-color: var(--coral); background: var(--bg-elevated); }
+
+    .card-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 12px 14px 10px;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+    }
+
+    .card-title-text { font-weight: 500; font-size: 13px; line-height: 1.4; flex: 1; }
+    .card-body { padding: 10px 14px; }
+
+    .card-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-bottom: 6px; border-top: 1px solid var(--border); padding-top: 8px; }
+    .card-pub { font-size: 11px; color: var(--text-secondary); display: flex; justify-content: space-between; }
+
+    /* EMPTY */
+    .empty-box {
+      border: 1px solid var(--border);
+      background: var(--bg-surface);
+      padding: 60px 20px;
+      text-align: center;
+    }
+
+    .empty-icon { font-size: 36px; margin-bottom: 10px; opacity: 0.4; }
+    .empty-text { font-size: 13px; color: var(--text-secondary); }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      color: var(--text-dim);
+      letter-spacing: 1px;
+      line-height: 2;
+      margin-top: 48px;
+    }
+
+    footer a { color: var(--coral); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    /* Checkbox */
+    input[type="checkbox"] {
+      accent-color: var(--coral);
+      width: 14px;
+      height: 14px;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    /* Responsive hide/show */
+    .desktop-only { display: none; }
+    .mobile-only { display: block; }
+
+    @media (min-width: 640px) {
+      .desktop-only { display: block; }
+      .mobile-only { display: none; }
+    }
+
+    /* Chevron icons (pure CSS) */
+    .chevron::before { content: '▾'; font-size: 10px; }
+    .chevron.up::before { content: '▴'; }
+
+    /* Spinner for button */
+    .btn-spinner {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      border: 2px solid rgba(0,0,0,0.2);
+      border-top-color: var(--bg-deep);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+
+    /* Cols widths */
+    .col-cb { width: 4%; }
+    .col-title { width: 33%; }
+    .col-authors { width: 17%; }
+    .col-year { width: 6%; }
+    .col-pub { width: 20%; }
+    .col-cite { width: 7%; }
+    .col-oa { width: 5%; }
+    .col-abs { width: 5%; }
+    .col-link { width: 5%; }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="/" class="nav-brand">huongdm1896</a>
+  <ul class="nav-links">
+    <li><a href="/">Home</a></li>
+    <li><a href="/scholar-scraper.html" class="active">Scholar Scraper</a></li>
+    <!-- Add more nav items here -->
+  </ul>
+</nav>
+
+<div class="wrapper">
+
+  <!-- HEADER -->
+  <div class="page-header">
+    <p class="header-eyebrow">✦ ✦ ✦</p>
+    <h1>Scholar Scraper</h1>
+    <p class="header-sub">Search academic papers — Powered by OpenAlex · Free · No API key needed</p>
+    <div class="dot-row">
+      <span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span>
+    </div>
+  </div>
+
+  <!-- SEARCH FORM -->
+  <div class="card">
+    <p class="card-label">// Search</p>
+
+    <!-- Main query -->
+    <div class="search-row">
+      <input type="text" id="main-query" placeholder="e.g. deep learning image classification, transformer attention..." />
+      <button class="btn-search" id="search-btn" onclick="doSearch()">
+        <span id="search-icon">⌕</span>
+        <span class="desktop-only" id="search-label">Search</span>
+      </button>
+    </div>
+
+    <!-- Tips -->
+    <div class="search-tips">
+      <span><span class="label">Multiple terms:</span> type freely —
+        <span class="mono">federated learning energy</span></span>
+      <span class="sep">·</span>
+      <span><span class="label">Exact phrase:</span> use quotes —
+        <span class="mono">"federated learning"</span></span>
+      <span class="sep">·</span>
+      <span style="opacity:.5">AND / OR / NOT not supported</span>
+    </div>
+
+    <!-- Filters -->
+    <div class="filters-grid">
+      <div>
+        <label class="field-label">From year</label>
+        <input type="number" id="year-from" placeholder="2018" />
+      </div>
+      <div>
+        <label class="field-label">To year</label>
+        <input type="number" id="year-to" placeholder="2026" />
+      </div>
+      <div>
+        <label class="field-label">Results</label>
+        <select id="num-results">
+          <option value="10">10 papers</option>
+          <option value="20" selected>20 papers</option>
+          <option value="50">50 papers</option>
+          <option value="100">100 papers</option>
+        </select>
+      </div>
+      <div>
+        <label class="field-label">Sort by</label>
+        <select id="sort-by">
+          <option value="relevance_score">Most relevant</option>
+          <option value="cited_by_count">Most cited</option>
+          <option value="publication_date">Most recent</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Advanced toggle -->
+    <button class="advanced-toggle" onclick="toggleAdvanced()">
+      <span class="chevron" id="adv-chevron"></span>
+      <span id="adv-label">Advanced options</span>
+    </button>
+
+    <!-- Advanced panel -->
+    <div class="advanced-section" id="advanced-panel" style="display:none;">
+      <!-- Open Access toggle -->
+      <label class="toggle-label" onclick="toggleOA()">
+        <div class="toggle-track" id="oa-track">
+          <div class="toggle-thumb"></div>
+        </div>
+        <span class="toggle-text">Only show Open Access papers (free to read)</span>
+      </label>
+
+      <!-- Survey filter -->
+      <div>
+        <p class="field-label" style="margin-bottom:8px;">Survey &amp; Review papers</p>
+        <div class="survey-btns">
+          <button class="survey-btn active" data-val="all" onclick="setSurvey(this)">All</button>
+          <button class="survey-btn" data-val="exclude" onclick="setSurvey(this)">Exclude</button>
+          <button class="survey-btn" data-val="only" onclick="setSurvey(this)">Only</button>
+        </div>
+        <p style="font-size:10px;color:var(--text-dim);">Filters by keywords in title: survey, review, meta-analysis, overview...</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ERROR -->
+  <div class="error-box" id="error-box" style="display:none;">
+    <span>⚠</span>
+    <span id="error-msg"></span>
+  </div>
+
+  <!-- LOADING -->
+  <div class="loading-box" id="loading-box" style="display:none;">
+    <div class="spin"></div>
+    <p class="loading-title">Searching for papers...</p>
+    <p class="loading-sub">Querying OpenAlex — the world's largest open academic data source</p>
+  </div>
+
+  <!-- RESULTS -->
+  <div id="results-section" style="display:none;">
+
+    <!-- Toolbar -->
+    <div class="toolbar">
+      <div class="toolbar-title">
+        <span class="slash">//</span>
+        Results
+        <span class="toolbar-meta" id="results-meta"></span>
+      </div>
+      <div class="toolbar-actions">
+        <span id="select-info" class="select-dim">None selected — export all</span>
+        <button class="btn-export" id="btn-csv" onclick="exportCSV()">
+          ↓ <span id="csv-label">CSV</span>
+        </button>
+        <button class="btn-export" id="btn-xlsx" onclick="exportXLSX()">
+          ⊞ <span id="xlsx-label">Excel</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Empty -->
+    <div class="empty-box" id="empty-box" style="display:none;">
+      <div class="empty-icon">✕</div>
+      <p class="empty-text">No papers found. Try different keywords or adjust the filters.</p>
+    </div>
+
+    <!-- Table (desktop) -->
+    <div class="table-wrap desktop-only" id="table-wrap">
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th class="col-cb">
+                <input type="checkbox" id="select-all-cb" onchange="toggleSelectAll()" />
+              </th>
+              <th class="col-title">Title</th>
+              <th class="col-authors">Authors</th>
+              <th class="col-year">Year</th>
+              <th class="col-pub">Published in</th>
+              <th class="col-cite right">Cite</th>
+              <th class="col-oa center">OA</th>
+              <th class="col-abs center">Abstract</th>
+              <th class="col-link center">Link</th>
+            </tr>
+          </thead>
+          <tbody id="results-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Cards (mobile) -->
+    <div class="cards-list mobile-only" id="cards-list"></div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div>Data from <a href="https://openalex.org" target="_blank" rel="noopener noreferrer">OpenAlex</a> — open academic catalog with 250M+ papers</div>
+    <div>Free · No sign-up · No API key required</div>
+  </footer>
+
+</div>
+
+<script>
+  // --- STATE ---
+  let articles = [];
+  let selectedIds = new Set();
+  let expandedIds = new Set();
+  let lastQuery = '';
+  let totalResults = 0;
+  let isLoading = false;
+  let openAccessOnly = false;
+  let surveyFilter = 'all';
+  let advancedOpen = false;
+
+  // --- UI HELPERS ---
+  function show(id) { document.getElementById(id).style.display = ''; }
+  function hide(id) { document.getElementById(id).style.display = 'none'; }
+  function el(id) { return document.getElementById(id); }
+
+  function toggleAdvanced() {
+    advancedOpen = !advancedOpen;
+    el('advanced-panel').style.display = advancedOpen ? '' : 'none';
+    el('adv-chevron').classList.toggle('up', advancedOpen);
+    el('adv-label').textContent = advancedOpen ? 'Hide advanced' : 'Advanced options';
+  }
+
+  function toggleOA() {
+    openAccessOnly = !openAccessOnly;
+    el('oa-track').classList.toggle('on', openAccessOnly);
+  }
+
+  function setSurvey(btn) {
+    document.querySelectorAll('.survey-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    surveyFilter = btn.dataset.val;
+  }
+
+  // --- ABSTRACT DECODE ---
+  function decodeAbstract(inverted) {
+    if (!inverted) return '';
+    const entries = Object.entries(inverted);
+    if (!entries.length) return '';
+    let max = 0;
+    for (const [, positions] of entries) for (const p of positions) if (p > max) max = p;
+    const words = new Array(max + 1);
+    for (const [word, positions] of entries) for (const p of positions) words[p] = word;
+    return words.filter(Boolean).join(' ');
+  }
+
+  function formatAuthors(authorships) {
+    if (!authorships?.length) return '';
+    const names = authorships.slice(0, 4).map(a => a.author?.display_name ?? '');
+    return names.join(', ') + (authorships.length > 4 ? ` +${authorships.length - 4}` : '');
+  }
+
+  // --- SEARCH ---
+  async function doSearch() {
+    const query = el('main-query').value.trim();
+    if (!query) { showError('Please enter a search keyword.'); return; }
+    if (isLoading) return;
+
+    isLoading = true;
+    hideError();
+    hide('results-section');
+    hide('loading-box');
+    articles = [];
+    selectedIds = new Set();
+    expandedIds = new Set();
+    lastQuery = query;
+
+    const searchBtn = el('search-btn');
+    el('search-icon').innerHTML = '<span class="btn-spinner"></span>';
+    el('search-label').textContent = 'Searching...';
+    searchBtn.disabled = true;
+
+    show('loading-box');
+
+    try {
+      const params = new URLSearchParams({
+        search: query,
+        per_page: el('num-results').value,
+        mailto: 'scholar@huongdm1896.github.io',
+      });
+
+      const filters = ['type:article'];
+      const yFrom = el('year-from').value;
+      const yTo = el('year-to').value;
+      if (yFrom && yTo) filters.push(`publication_year:${yFrom}-${yTo}`);
+      else if (yFrom) filters.push(`publication_year:>${Number(yFrom) - 1}`);
+      else if (yTo) filters.push(`publication_year:<${Number(yTo) + 1}`);
+      if (openAccessOnly) filters.push('open_access.is_oa:true');
+      params.set('filter', filters.join(','));
+
+      const sortBy = el('sort-by').value;
+      if (sortBy !== 'relevance_score') params.set('sort', `${sortBy}:desc`);
+
+      params.set('select', 'title,authorships,publication_year,primary_location,cited_by_count,abstract_inverted_index,doi,open_access');
+
+      const resp = await fetch(`https://api.openalex.org/works?${params.toString()}`);
+      if (!resp.ok) throw new Error(`API error: ${resp.status}`);
+      const data = await resp.json();
+      totalResults = data.meta?.count ?? 0;
+
+      const SURVEY_RE = /\b(survey|review|systematic review|literature review|meta.analysis|overview|state of the art)\b/i;
+
+      const mapped = (data.results ?? []).map(w => ({
+        title: w.title ?? '(No title)',
+        authors: formatAuthors(w.authorships),
+        year: String(w.publication_year ?? ''),
+        publication: w.primary_location?.source?.display_name ?? '',
+        citations: w.cited_by_count ?? 0,
+        abstract: decodeAbstract(w.abstract_inverted_index),
+        link: w.doi ? `https://doi.org/${w.doi.replace('https://doi.org/', '')}` : '',
+        doi: w.doi ?? '',
+        openAccess: w.open_access?.is_oa ?? false,
+      }));
+
+      articles = mapped.filter(a => {
+        const isSurvey = SURVEY_RE.test(a.title);
+        if (surveyFilter === 'exclude') return !isSurvey;
+        if (surveyFilter === 'only') return isSurvey;
+        return true;
+      });
+
+      renderResults();
+
+    } catch (e) {
+      showError(e.message || 'An unknown error occurred.');
+    } finally {
+      isLoading = false;
+      hide('loading-box');
+      el('search-icon').textContent = '⌕';
+      el('search-label').textContent = 'Search';
+      searchBtn.disabled = false;
+    }
+  }
+
+  // --- RENDER ---
+  function renderResults() {
+    show('results-section');
+
+    el('results-meta').textContent = `${articles.length} / ${totalResults.toLocaleString()} papers — "${lastQuery}"`;
+
+    if (!articles.length) {
+      show('empty-box');
+      hide('table-wrap');
+      el('cards-list').innerHTML = '';
+      return;
+    }
+
+    hide('empty-box');
+    renderTable();
+    renderCards();
+    updateSelectInfo();
+  }
+
+  function renderTable() {
+    const tbody = el('results-tbody');
+    tbody.innerHTML = '';
+
+    articles.forEach((a, i) => {
+      // Main row
+      const tr = document.createElement('tr');
+      tr.id = `row-${i}`;
+      if (selectedIds.has(i)) tr.classList.add('selected');
+
+      tr.innerHTML = `
+        <td><input type="checkbox" ${selectedIds.has(i) ? 'checked' : ''} onchange="toggleSelect(${i})" /></td>
+        <td><div class="td-title">${escHtml(a.title)}</div></td>
+        <td class="td-authors">${escHtml(a.authors)}</td>
+        <td><span class="year-badge">${escHtml(a.year)}</span></td>
+        <td class="td-pub">${escHtml(a.publication)}</td>
+        <td class="right">${a.citations ? `<span class="cite-val">${a.citations.toLocaleString()}</span>` : '<span class="dash">—</span>'}</td>
+        <td class="center">${a.openAccess ? '<span class="oa-icon" title="Open Access">🔓</span>' : '<span class="dash">—</span>'}</td>
+        <td class="center">${a.abstract ? `<button class="btn-icon" title="${expandedIds.has(i) ? 'Hide abstract' : 'Show abstract'}" onclick="toggleExpand(${i})" id="abs-btn-${i}">${expandedIds.has(i) ? '▴' : '▾'}</button>` : '<span class="dash">—</span>'}</td>
+        <td class="center">${a.link ? `<a class="btn-icon" href="${escHtml(a.link)}" target="_blank" rel="noopener noreferrer" title="Open paper">↗</a>` : '<span class="dash">—</span>'}</td>
+      `;
+      tbody.appendChild(tr);
+
+      // Abstract row
+      if (a.abstract) {
+        const absTr = document.createElement('tr');
+        absTr.className = 'abstract-row';
+        absTr.id = `abs-row-${i}`;
+        absTr.style.display = expandedIds.has(i) ? '' : 'none';
+        absTr.innerHTML = `<td colspan="9"><div class="abstract-inner"><p class="abstract-text">${escHtml(a.abstract)}</p></div></td>`;
+        tbody.appendChild(absTr);
+      }
+    });
+  }
+
+  function renderCards() {
+    const list = el('cards-list');
+    list.innerHTML = '';
+
+    articles.forEach((a, i) => {
+      const div = document.createElement('div');
+      div.className = 'card-item' + (selectedIds.has(i) ? ' selected' : '');
+      div.id = `card-${i}`;
+
+      div.innerHTML = `
+        <div class="card-header" onclick="toggleSelect(${i})">
+          <input type="checkbox" ${selectedIds.has(i) ? 'checked' : ''} onclick="event.stopPropagation()" onchange="toggleSelect(${i})" />
+          <span class="card-title-text">${escHtml(a.title)}</span>
+          ${a.link ? `<a href="${escHtml(a.link)}" target="_blank" rel="noopener noreferrer" class="btn-icon" onclick="event.stopPropagation()" title="Open paper">↗</a>` : ''}
+        </div>
+        <div class="card-body">
+          ${a.abstract ? `
+            <div style="margin-bottom:8px;">
+              <button class="advanced-toggle" onclick="toggleExpand(${i})" id="card-abs-btn-${i}">
+                <span class="chevron ${expandedIds.has(i) ? 'up' : ''}"></span>
+                Abstract
+              </button>
+              ${expandedIds.has(i) ? `<p class="abstract-text" style="margin-top:6px;border-left:2px solid rgba(255,92,74,.35);padding-left:8px;">${escHtml(a.abstract)}</p>` : ''}
+            </div>` : ''}
+          <div class="card-meta">
+            <span class="year-badge">${escHtml(a.year)}</span>
+            ${a.openAccess ? '<span style="font-size:11px;color:var(--green);display:flex;align-items:center;gap:4px;">🔓 Open Access</span>' : ''}
+            <span style="font-size:11px;color:var(--text-secondary);">${escHtml(a.authors)}</span>
+          </div>
+          <div class="card-pub">
+            <span>${escHtml(a.publication)}</span>
+            ${a.citations ? `<span style="font-size:11px;color:var(--text-dim);">❝ ${a.citations.toLocaleString()}</span>` : ''}
+          </div>
+        </div>
+      `;
+
+      list.appendChild(div);
+    });
+  }
+
+  // --- SELECTION ---
+  function toggleSelect(i) {
+    if (selectedIds.has(i)) selectedIds.delete(i);
+    else selectedIds.add(i);
+    updateRowSelected(i);
+    updateSelectAll();
+    updateSelectInfo();
+    updateExportLabels();
+  }
+
+  function toggleSelectAll() {
+    const cb = el('select-all-cb');
+    if (cb.checked) {
+      articles.forEach((_, i) => selectedIds.add(i));
+    } else {
+      selectedIds.clear();
+    }
+    articles.forEach((_, i) => updateRowSelected(i));
+    updateSelectInfo();
+    updateExportLabels();
+  }
+
+  function updateRowSelected(i) {
+    const row = el(`row-${i}`);
+    const card = el(`card-${i}`);
+    if (row) {
+      row.classList.toggle('selected', selectedIds.has(i));
+      const cb = row.querySelector('input[type="checkbox"]');
+      if (cb) cb.checked = selectedIds.has(i);
+    }
+    if (card) {
+      card.classList.toggle('selected', selectedIds.has(i));
+      const cb = card.querySelector('input[type="checkbox"]');
+      if (cb) cb.checked = selectedIds.has(i);
+    }
+  }
+
+  function updateSelectAll() {
+    const cb = el('select-all-cb');
+    if (!cb) return;
+    cb.checked = selectedIds.size === articles.length && articles.length > 0;
+    cb.indeterminate = selectedIds.size > 0 && selectedIds.size < articles.length;
+  }
+
+  function updateSelectInfo() {
+    const n = selectedIds.size;
+    const si = el('select-info');
+    if (n > 0) {
+      si.className = 'select-info';
+      si.textContent = `${n} paper${n > 1 ? 's' : ''} selected`;
+    } else {
+      si.className = 'select-dim';
+      si.textContent = 'None selected — export all';
+    }
+  }
+
+  function updateExportLabels() {
+    const n = selectedIds.size;
+    el('csv-label').textContent = n > 0 ? `CSV (${n})` : 'CSV';
+    el('xlsx-label').textContent = n > 0 ? `Excel (${n})` : 'Excel';
+  }
+
+  // --- EXPAND ABSTRACT ---
+  function toggleExpand(i) {
+    if (expandedIds.has(i)) expandedIds.delete(i);
+    else expandedIds.add(i);
+
+    // Desktop
+    const absRow = el(`abs-row-${i}`);
+    const absBtn = el(`abs-btn-${i}`);
+    if (absRow) absRow.style.display = expandedIds.has(i) ? '' : 'none';
+    if (absBtn) {
+      absBtn.textContent = expandedIds.has(i) ? '▴' : '▾';
+      absBtn.title = expandedIds.has(i) ? 'Hide abstract' : 'Show abstract';
+    }
+
+    // Mobile — re-render that card
+    const card = el(`card-${i}`);
+    if (card) {
+      const absBtnMob = el(`card-abs-btn-${i}`);
+      if (absBtnMob) {
+        const chev = absBtnMob.querySelector('.chevron');
+        if (chev) chev.classList.toggle('up', expandedIds.has(i));
+      }
+      // Update abstract text visibility
+      const a = articles[i];
+      if (a?.abstract) {
+        let existing = card.querySelector('.abstract-text');
+        if (expandedIds.has(i)) {
+          if (!existing) {
+            const p = document.createElement('p');
+            p.className = 'abstract-text';
+            p.style.cssText = 'margin-top:6px;border-left:2px solid rgba(255,92,74,.35);padding-left:8px;';
+            p.textContent = a.abstract;
+            absBtnMob?.parentNode?.appendChild(p);
+          }
+        } else {
+          if (existing) existing.remove();
+        }
+      }
+    }
+  }
+
+  // --- ERROR ---
+  function showError(msg) {
+    el('error-msg').textContent = msg;
+    show('error-box');
+  }
+
+  function hideError() { hide('error-box'); }
+
+  // --- EXPORT ---
+  function getExportTarget() {
+    return selectedIds.size > 0
+      ? articles.filter((_, i) => selectedIds.has(i))
+      : articles;
+  }
+
+  function exportCSV() {
+    const target = getExportTarget();
+    if (!target.length) return;
+    const headers = ['Title', 'Authors', 'Year', 'Published in', 'Citations', 'Abstract', 'DOI/Link', 'Open Access'];
+    const rows = target.map(a => [a.title, a.authors, a.year, a.publication, a.citations, a.abstract, a.link, a.openAccess ? 'Yes' : 'No']);
+    const csv = [headers, ...rows].map(r => r.map(c => `"${String(c ?? '').replace(/"/g, '""')}"`).join(',')).join('\n');
+    triggerDownload('\uFEFF' + csv, `scholar_${lastQuery.slice(0, 30)}.csv`, 'text/csv;charset=utf-8;');
+  }
+
+  function exportXLSX() {
+    const target = getExportTarget();
+    if (!target.length) return;
+    const headers = ['Title', 'Authors', 'Year', 'Published in', 'Citations', 'Abstract', 'DOI/Link', 'Open Access'];
+    const rows = target.map(a => [a.title, a.authors, a.year, a.publication, String(a.citations ?? ''), a.abstract, a.link, a.openAccess ? 'Yes' : 'No']);
+    const tsv = [headers, ...rows].map(r => r.map(c => String(c ?? '').replace(/\t/g, ' ')).join('\t')).join('\n');
+    triggerDownload('\uFEFF' + tsv, `scholar_${lastQuery.slice(0, 30)}.xls`, 'application/vnd.ms-excel');
+  }
+
+  function triggerDownload(content, filename, type) {
+    const blob = new Blob([content], { type });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = filename;
+    a.click();
+    URL.revokeObjectURL(a.href);
+  }
+
+  // --- HTML ESCAPE ---
+  function escHtml(str) {
+    return String(str ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  // --- KEYBOARD ---
+  el('main-query').addEventListener('keydown', e => { if (e.key === 'Enter') doSearch(); });
+</script>
+</body>
+</html>

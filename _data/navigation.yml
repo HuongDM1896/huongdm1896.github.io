@@ -31,6 +31,10 @@ main:
 
   - title: "Activities"
     url: /Activities/
+
+  - title: "ResearchLens"
+    url: /scholar-scraper/
     
-  - title: "Bói Bài"
-    url: /boi-bai/
+  # - title: "Bói Bài"
+  #   url: /boi-bai/
+  
