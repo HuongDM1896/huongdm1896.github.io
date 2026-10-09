@@ -38,10 +38,11 @@ author:
   semantic         : # URL
   pubmed           : # URL
   researchgate     : # URL
+  hal              : "https://cv.hal.science/mai-huong-do"
 
   # Repositories and software development
   bitbucket        : # Username - Update with your username on the site
-  codepen          : "HuongDM1896"
+  codepen          : #"HuongDM1896"
   dribbble         : # Username
   gitlab           : "hdomai"
   github           : "HuongDM1896"
