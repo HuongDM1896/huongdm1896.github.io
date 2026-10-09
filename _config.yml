@@ -218,6 +218,10 @@ collections:
   research:
     output: true
     permalink: /research/:name/
+
+  travel:
+    output: true
+    permalink: /travel/:name/
   # portfolio:
   #   output: true
   #   permalink: /:collection/:path/

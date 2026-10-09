@@ -8,7 +8,7 @@ redirect_from:
   - /about.html
 ---
 
-## 👋 Hello, I'm Mai Hương ^^
+## Hello, I'm Mai Hương ^^
 
 ![Profile Photo](http://huongdm1896.github.io/images/profile2.png){: width="200" style="float: right; margin-left: 20px;"}
 
@@ -16,7 +16,7 @@ redirect_from:
 
 ---
 
-### My academic journey
+## My academic journey
 
 My academic journey has taken me from my homeland to South Korea and now to France.
 I earned my B.S. degree in Electronics and Telecommunications from [Hanoi University of Science and Technology](https://hust.edu.vn/) in 2020, where I was supervised by Dr. Lâm Hồng Thạch.  
@@ -26,7 +26,7 @@ At present, my work focuses on distributed computing systems, energy consumption
 
 ---
 
-## 🔬 Know me in my works
+## Know me in my works
 
 - **Distributed computing system, energy measurement, federated learning**  
   These are my current research topics, so I’d like to discuss them if we share similar interests.
@@ -39,8 +39,7 @@ At present, my work focuses on distributed computing systems, energy consumption
 
 ---
 
-## 🌱 Know me beyond my works
+## Know me beyond my works
 
-- I enjoy hiking, listening to music, traveling, and I have a great passion for delicious food.
-- My personal motto is: "*Follow your heart's desires.*"  
-  Then my heart said, "*Eat, Relax, and Wait to grow old.*"
+- I enjoy hiking, photography, listening to music, traveling, and I have a great passion for delicious food.
+- Life motto: "*Eat, sleep, and wait to die.*"
